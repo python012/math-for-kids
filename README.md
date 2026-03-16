@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 数学小天才 - Math for Kids
 
-## Getting Started
+一个帮助小朋友学习 10 以内乘法的趣味 web 游戏。
 
-First, run the development server:
+## 在线体验
+
+🔗 **在线地址**: https://math-for-kids-fawn.vercel.app/
+
+![游戏截图](./screenshot.jpg)
+
+## 功能特点
+
+- 🎮 10×10 网格选择
+- 🖱️ 支持鼠标/触摸滑动选择
+- 🔢 随机 10 以内乘法题目
+- ✅ 答对有音效反馈
+- 📊 计分系统
+
+## 快速开始
 
 ```bash
+# 安装依赖
+npm install
+
+# 开发模式
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+访问 http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 构建部署
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 生产构建
+npm run build
 
-## Learn More
+# 生产环境运行
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 部署到 Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. 将代码推送到 GitHub
+2. 在 Vercel 导入项目
+3. 自动构建部署
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 技术栈
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
