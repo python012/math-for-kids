@@ -23,6 +23,10 @@ npm run lint             # Run ESLint
 npx tsc --noEmit         # TypeScript type check only
 ```
 
+## Testing
+- **No test framework configured** - Add Jest/Vitest if tests are needed
+- Single test command: N/A (no tests exist)
+
 ## Code Style Guidelines
 
 ### General Principles
@@ -44,10 +48,11 @@ npx tsc --noEmit         # TypeScript type check only
 - Boolean variables: prefix with `is`, `has`, `should` (e.g., `isDragging`, `hasError`)
 
 ### TypeScript
+- Strict mode enabled in tsconfig.json
+- Path alias: `@/*` maps to `./src/*`
 - Always define prop types for components
 - Use explicit return types for complex functions
 - Avoid `any` type - use `unknown` if type is truly unknown
-- Strict mode is enabled in tsconfig.json
 
 ### Error Handling
 - Use try-catch for async operations
@@ -100,18 +105,26 @@ export const dynamic = 'force-dynamic';
 ```
 src/
 ├── app/
-│   ├── page.tsx         # Main game page
+│   ├── page.tsx         # Home page with game list
 │   ├── layout.tsx       # Root layout
-│   └── globals.css      # Global styles
+│   ├── globals.css      # Global styles
+│   └── game/
+│       └── 1-grid/      # Multiplication grid game
+│           └── page.tsx
 ├── components/          # Reusable components (if any)
 └── lib/                 # Utility functions (if any)
 ```
 
-## Vercel Deployment
-- Project is configured for Vercel deployment
-- No special configuration needed - just push to git and import in Vercel
-- Build command: `npm run build`
-- Output directory: `.next`
+## Game Structure
+
+### Adding New Games
+1. Create new folder under `/game/` (e.g., `/game/2-division`)
+2. Add `page.tsx` with the game component
+3. Update game list in `src/app/page.tsx`
+
+### Current Games
+- `/game/1-grid` - Multiplication grid game (select rows/cols to visualize multiplication)
+- `/game/2-division` - Placeholder for division with remainder game
 
 ## Working with This Codebase
 

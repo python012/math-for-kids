@@ -17,7 +17,7 @@
 body {
   background: linear-gradient(135deg, #f0f9ff 0%, #fef3c7 100%);
   color: var(--foreground);
-  font-family: var(--font-fredoka), cursive;
+  font-family: var(--font-noto-sans-sc), var(--font-fredoka), cursive;
   min-height: 100vh;
 }
 
