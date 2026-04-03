@@ -26,6 +26,13 @@ const games: Game[] = [
     path: "/game/2-division",
     icon: "📦",
   },
+  {
+    id: "3-multiple",
+    name: "倍数绘本",
+    description: "看图闯关，理解倍数的奥秘",
+    path: "/game/3-multiple",
+    icon: "📚",
+  },
 ];
 
 export default function Home() {

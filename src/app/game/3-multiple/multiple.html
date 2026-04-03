@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倍数绘本 - 数学小天才</title>
+    <style>
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #2c7fb8;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s;
+        }
+        .back-btn:hover {
+            transform: scale(1.05);
+            background-color: #1a5f8a;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", "黑体", sans-serif;
+        }
+        body {
+            background-color: #f0f8ff;
+            padding: 20px;
+            text-align: center;
+        }
+        .level {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 0 auto 20px auto;
+            width: 100%;
+            text-align: center;
+        }
+        .level.active {
+            display: block;
+        }
+        h1 {
+            color: #2c7fb8;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            line-height: 1.5;
+        }
+        .info-box {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .books-area {
+            margin: 40px auto;
+            display: inline-block;
+            text-align: left;
+        }
+        .book-row {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .book-label {
+            width: 140px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            flex-shrink: 0;
+            text-align: right;
+            padding-right: 15px;
+        }
+        .book-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .divider {
+            width: 0;
+            height: 50px;
+            border-right: 2px dashed #2c7fb8;
+            opacity: 0.6;
+            flex-shrink: 0;
+            margin: 0;
+        }
+        .book {
+            width: 50px;
+            height: 70px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+        .book.blue {
+            background-color: #4aa8e0;
+            border: 2px solid #2c7fb8;
+        }
+        .book.green {
+            background-color: #5cd080;
+            border: 2px solid #2da855;
+        }
+        .book.yellow {
+            background-color: #ffd93d;
+            border: 2px solid #ffb700;
+            color: #333;
+        }
+        .book.red-dash {
+            background-color: #fff0f0;
+            border: 2px dashed #ff6b6b;
+            color: #ff6b6b;
+        }
+        .tip-box {
+            background-color: #e8f4fd;
+            border-left: 6px solid #2c7fb8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            font-size: 1.4em;
+            line-height: 1.6;
+            color: #333;
+            text-align: left;
+            max-width: 800px;
+            display: inline-block;
+        }
+        .btn {
+            display: block;
+            width: 300px;
+            height: 70px;
+            line-height: 70px;
+            background-color: #2da855;
+            color: white;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 30px auto;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #249047;
+        }
+        .btn.orange {
+            background-color: #ff8c00;
+        }
+        .btn.orange:hover {
+            background-color: #e67e00;
+        }
+        .question-box {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .question {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #333;
+        }
+        .question input {
+            width: 100px;
+            height: 50px;
+            font-size: 1.3em;
+            text-align: center;
+            border: 2px solid #2c7fb8;
+            border-radius: 10px;
+            margin: 0 10px;
+        }
+        .feedback {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 30px 0;
+            min-height: 50px;
+        }
+        .feedback.correct {
+            color: #2da855;
+        }
+        .feedback.wrong {
+            color: #ff6b6b;
+        }
+        .check-formula {
+            font-size: 1.4em;
+            color: #333;
+            margin: 20px 0;
+            display: none;
+        }
+        .highlight {
+            animation: flash 1s infinite;
+        }
+        @keyframes flash {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.location.href='/'">← 返回首页</button>
+    <div class="fireworks" id="fireworks"></div>
+
+    <!-- 第一关 -->
+    <div class="level active" id="level1">
+        <h1>📚 第一关：认识"一组书"</h1>
+        <div class="info-box">
+            ✅ 1 组科普书有 <span style="color: #2c7fb8; font-size: 1.3em;">3</span> 本
+        </div>
+
+        <div class="books-area">
+            <div class="book-row">
+                <div class="book-label">1 倍 = 1 组</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                </div>
+            </div>
+            <div class="book-row">
+                <div class="book-label">2 倍 = 2 组</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                </div>
+            </div>
+            <div class="book-row">
+                <div class="book-label">3 倍 = 3 组</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            💡 小朋友你看：2 组和 3 组，永远差了几组呀？
+        </div>
+
+        <button class="btn" onclick="goLevel(2)">我懂啦！去下一关</button>
+    </div>
+
+    <!-- 第二关 -->
+    <div class="level" id="level2">
+        <h1>📚 第二关：找到绘本的长度</h1>
+        <div class="tip-box" style="border-left-color: #ff8c00; background-color: #fff8e8;">
+            📖 绘本的数量，比 2 组科普书<b style="color:#2da855">多 1 本</b><br>
+            📖 绘本的数量，比 3 组科普书<b style="color:#ff6b6b">少 2 本</b>
+        </div>
+
+        <div class="books-area">
+            <div class="book-row">
+                <div class="book-label">2 组 + 1 本</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book green" id="green-1">1</div>
+                </div>
+            </div>
+            <div class="book-row">
+                <div class="book-label">3 组 - 2 本</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book red-dash" id="red-1">1</div>
+                    <div class="book red-dash" id="red-2">2</div>
+                </div>
+            </div>
+            <div class="book-row">
+                <div class="book-label">📖 绘本总数</div>
+                <div class="book-group">
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow">1</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn orange" onclick="showCompare()">🔍 对齐比一比</button>
+        <div class="tip-box" id="compare-tip" style="display: none;">
+            1️⃣ 绘本比 2 组多了 <b style="color:#2da855">1 本</b><br>
+            2️⃣ 绘本比 3 组少了 <b style="color:#ff6b6b">2 本</b><br>
+            3️⃣ 2 组和 3 组差了 1 组！所以 1 组的数量 = 1+2 = <b style="color:#2c7fb8">3 本</b>
+        </div>
+
+        <button class="btn" onclick="goLevel(3)">我找到规律啦！去闯关</button>
+    </div>
+
+    <!-- 第三关 -->
+    <div class="level" id="level3">
+        <h1>📚 第三关：算出绘本的数量！</h1>
+        <div class="tip-box" style="border-left-color: #ff8c00; background-color: #fff8e8;">
+            绘本比科普书的 2 倍多 1 本，比科普书的 3 倍少 2 本，绘本有几本？
+        </div>
+
+        <div class="books-area">
+            <div class="book-row">
+                <div class="book-label">2 组 + 1 本</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book green">1</div>
+                </div>
+            </div>
+            <div class="book-row">
+                <div class="book-label">3 组 - 2 本</div>
+                <div class="book-group">
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="book blue"></div>
+                    <div class="divider"></div>
+                    <div class="book blue"></div>
+                    <div class="book red-dash">1</div>
+                    <div class="book red-dash">2</div>
+                </div>
+            </div>
+            <div class="book-row">
+                <div class="book-label">📖 绘本总数</div>
+                <div class="book-group">
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow"></div>
+                    <div class="book yellow">1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question">
+               第 1 问：1 组科普书有多少本？
+                <input type="number" id="answer1" placeholder="？"> 本
+            </div>
+            <div class="question">
+               第 2 问：绘本有多少本？
+                <input type="number" id="answer2" placeholder="？"> 本
+            </div>
+        </div>
+
+        <button class="btn orange" onclick="checkAnswer()">检查答案</button>
+        <div class="feedback" id="feedback"></div>
+        <div class="check-formula" id="formula">
+            ✅ 验算：2×3+1=7、3×3-2=7
+        </div>
+    </div>
+
+    <script>
+        // 关卡切换
+        function goLevel(levelNum) {
+            document.querySelectorAll('.level').forEach(level => {
+                level.classList.remove('active');
+                level.style.display = 'none';
+            });
+            const targetLevel = document.getElementById('level' + levelNum);
+            targetLevel.classList.add('active');
+            targetLevel.style.display = 'block';
+        }
+
+        // 对比高亮
+        function showCompare() {
+            document.getElementById('compare-tip').style.display = 'inline-block';
+            document.getElementById('green-1').classList.add('highlight');
+            document.getElementById('red-1').classList.add('highlight');
+            document.getElementById('red-2').classList.add('highlight');
+        }
+
+        // 检查答案
+        function checkAnswer() {
+            const answer1 = document.getElementById('answer1').value;
+            const answer2 = document.getElementById('answer2').value;
+            const feedback = document.getElementById('feedback');
+            const formula = document.getElementById('formula');
+            const fireworks = document.getElementById('fireworks');
+
+            if(answer1 == '3' && answer2 == '7') {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '太棒啦！你完全懂啦🎉';
+                formula.style.display = 'block';
+                // 烟花效果
+                fireworks.style.display = 'block';
+                setTimeout(() => {
+                    fireworks.style.display = 'none';
+                }, 3000);
+            } else {
+                feedback.className = 'feedback wrong';
+                feedback.textContent = '再看看积木图哦，1 组的数量是多出来的 + 少了的哦😉';
+                formula.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
